@@ -29,6 +29,8 @@ const App = () => {
     }
   }, [data, isLoading, isError, query]);
 
+  const totalPages = data?.total_pages ?? 0;
+
   const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
     setPage(1);
@@ -44,9 +46,9 @@ const App = () => {
         <>
           <MovieGrid movies={data.results} onSelect={setSelectedMovie} />
 
-          {data.total_pages > 1 && (
+          {totalPages > 1 && (
             <ReactPaginate
-              pageCount={data.total_pages}
+              pageCount={totalPages}
               pageRangeDisplayed={5}
               marginPagesDisplayed={1}
               onPageChange={({ selected }: { selected: number }) => setPage(selected + 1)}
