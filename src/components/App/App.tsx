@@ -40,13 +40,7 @@ const App = () => {
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
 
-      {!isLoading &&
-        !isError &&
-        data?.results.length === 0 &&
-        query &&
-        toast.error("No movies found for your request.")}
-
-      {!isLoading && !isError && data?.results.length > 0 && (
+      {!isLoading && !isError && data && data.results.length > 0 && (
         <>
           <MovieGrid movies={data.results} onSelect={setSelectedMovie} />
 
@@ -55,7 +49,7 @@ const App = () => {
               pageCount={data.total_pages}
               pageRangeDisplayed={5}
               marginPagesDisplayed={1}
-              onPageChange={({ selected }) => setPage(selected + 1)}
+              onPageChange={({ selected }: { selected: number }) => setPage(selected + 1)}
               forcePage={page - 1}
               containerClassName={css.pagination}
               activeClassName={css.active}
