@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import SearchBar from "../SearchBar/SearchBar";
 import MovieGrid from "../MovieGrid/MovieGrid";
 import Loader from "../Loader/Loader";
@@ -21,6 +21,7 @@ const App = () => {
     queryKey: ["movies", query, page],
     queryFn: () => fetchMovies(query, page),
     enabled: !!query,
+    placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
@@ -51,7 +52,9 @@ const App = () => {
               pageCount={totalPages}
               pageRangeDisplayed={5}
               marginPagesDisplayed={1}
-              onPageChange={({ selected }: { selected: number }) => setPage(selected + 1)}
+              onPageChange={({ selected }: { selected: number }) =>
+                setPage(selected + 1)
+              }
               forcePage={page - 1}
               containerClassName={css.pagination}
               activeClassName={css.active}
